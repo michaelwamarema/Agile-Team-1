@@ -20,7 +20,7 @@ Each of the members spoke about what they had achieved so far - updating the pro
 Tony + Joel, started on the website, included input fields and website structure. Will continue to work on the website to accomadate displaying search results.
 
 
-Jodie, has completed one of her assigned tasks, Create function to restrict search to a price range, and will continue with createing function to restrict search to a price range. Calculating the distance between a and b may take longer than expected
+Jodie, has completed one of her assigned tasks, Create function to restrict search to a price range, and will continue with createing function to restrict search to a distance range. Calculating the distance between a and b may take longer than expected
 
 
 Michael, has begin work on implementing a map into the website, which will hopefully be ready to implement tomorrow
