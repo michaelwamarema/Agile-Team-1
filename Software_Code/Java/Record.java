@@ -14,8 +14,10 @@ public class Record {
     float price;
     int zip;
     
-    public void Record(){
-        
+    public Record(String location, float price, int zip){
+        this.location = location;
+        this.price = price;
+        this.zip = zip;
     }
     
     public String getLocation() {

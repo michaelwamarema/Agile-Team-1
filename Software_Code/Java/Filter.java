@@ -69,7 +69,14 @@ public class Filter {
         
     }
     
-    
+    /**
+     * goes through all records and returns all within the distance range
+     * 
+     * @param currentLocation location of the user
+     * @param range maximum distance in kilometres the user wants displayed
+     * @param locations all records
+     * @return 
+     */
     public Location[] filterByLocation(Location currentLocation, int range, Location[] locations){
         Location locationsInRange[] = new Location[locations.length]; 
         int counter = 0;
@@ -88,7 +95,33 @@ public class Filter {
         return returnLocations;
     }
     
+    /**public void searchLongAndLat(int zip, Location[] locations, Record[] records){
+        for(int i = 0; i < locations.length; i++){
+            if(locations[i].getZip()==zip){
+                calculateDistance(locations[i], )
+            }
+        }
+    }*/
     
+    public Location getCurrentLocation(int zip, Location[] locations){
+        int min = 0;
+        int max = locations.length-1;
+        int middle = -1;
+        while(min<=max){
+            middle = (int)Math.floor((min+max)/2);
+            if(locations[middle].getZip()<zip){
+                min = middle+1;
+            }
+            else if(locations[middle].getZip()>zip){
+                max = middle-1;
+            }
+            else{
+                return locations[middle];
+            }
+            
+        }
+        return null;
+    }
     
     /**
      * checks if record array is null or not
