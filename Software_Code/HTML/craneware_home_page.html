@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+  <title>Craneware</title>
+
+</head>
+
+<body>
+
+<!-- search options left-->
+  <div class="container-fluid">
+    <h1 style="text-align:center">Craneware</h1>
+    <div class="row">
+
+      <!-- Search location-->
+      <div class = "col-sm-4">
+        <div class="md-form mt-0">
+          <!-- Search bar -->
+          <p style ="height:15px;"> </p>
+          <input class="form-control" type="text" placeholder="Search by location..." aria-label="Search">
+          <p style ="height:15px;"> </p>
+
+          <!-- Search procedure -->
+          <div class="md-form mt-0">
+            <input class="form-control" type="text" placeholder="Search by procedure..." aria-label="Search">
+          </div>
+          <p style ="height:15px;"> </p>
+
+          <!-- Search code -->
+          <div class="md-form mt-0">
+            <input class="form-control" type="text" placeholder="Search by procedure code..." aria-label="Search">
+          </div>
+        </div>
+        <p style ="height:15px;"> </p>
+
+        <p style = "text-align:center;"><button type="button" class="btn btn-outline-primary" style="width:220px">Search</button></p>
+        <p></p>
+      </div>
+
+      <!-- search options right -->
+      <div class="col-sm-8">
+        <h4>Filters:</h4>
+
+        <!-- dropdown select price range -->
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">£</span>
+            </div>
+            <input type="text" class="form-control" placeholder="Maximum Price..." aria-label="Amount (to the nearest pound)">
+            <div class="input-group-append">
+              <span class="input-group-text">.00</span>
+            </div>
+          </div>
+
+          <p></p>
+
+          <!-- dropdown select distance range -->
+
+
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Maximum Distance..." aria-label="Maximum Distance" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2">Miles</span>
+          </div>
+        </div>
+
+          <p></p>
+
+          <h4>Sort by:</h4>
+
+          <!-- dropdown select highest to lowest price -->
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Price</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01">
+              <option selected>Choose...</option>
+              <option value="1">None</option>
+              <option value="2">Low - High</option>
+              <option value="3">High - Low</option>
+            </select>
+          </div>
+
+          <p></p>
+          <!-- dropdown select closest to furthest distance -->
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Distance</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01">
+              <option selected>Choose...</option>
+              <option value="1">None</option>
+              <option value="2">Low - High</option>
+              <option value="3">High - Low</option>
+            </select>
+          </div>
+
+
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="container-fluid" overflow: scroll>
+        <div class="row">
+          <div class = "col-sm-6">
+            <!-- search results -->
+            <h1>Search results</h1>
+
+            <!-- container for search result -->
+            <div class ="container p-3 my-3 border">
+              <h1>UNIVERSITY OF ALABAMA HOSPITAL - AL</h1>
+              <p>Birmingham - 619 South 19th Street</p>
+              <p>001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC</p>
+              <p>Average medical care payments: $121763.31</p>
+            </div>
+
+            <div class ="container p-3 my-3 border">
+              <h1>UNIVERSITY OF ALABAMA HOSPITAL - AL</h1>
+              <p>Birmingham - 619 South 19th Street</p>
+              <p>001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC</p>
+              <p>Average medical care payments: $121763.31</p>
+            </div>
+
+            <div class ="container p-3 my-3 border">
+              <h1>UNIVERSITY OF ALABAMA HOSPITAL - AL</h1>
+              <p>Birmingham - 619 South 19th Street</p>
+              <p>001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC</p>
+              <p>Average medical care payments: $121763.31</p>
+            </div>
+
+            <div class ="container p-3 my-3 border">
+              <h1>UNIVERSITY OF ALABAMA HOSPITAL - AL</h1>
+              <p>Birmingham - 619 South 19th Street</p>
+              <p>001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC</p>
+              <p>Average medical care payments: $121763.31</p>
+            </div>
+
+          </div>
+
+          <div class = "col-sm-6">
+
+            <div class="card sticky-top">
+              <!-- map -->
+              <h1>Map</h1>
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+    </body>
+
+</html>
