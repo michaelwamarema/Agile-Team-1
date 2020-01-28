@@ -13,6 +13,21 @@ public class Record {
     String location;
     float price;
     int zip;
+    /*
+    String DRGDefinition;
+    int providerID;
+    String providerName;
+    String providerStreetAddress;
+    String providerCity;
+    String providerState;
+    int providerZipCode;
+    String HRRDescription;
+    int totalDischarges;
+    double avgCoveredCharges;
+    double avgTotalPayments;
+    double avgMedicarePayments;
+    
+    */
     
     public Record(String location, float price, int zip){
         this.location = location;

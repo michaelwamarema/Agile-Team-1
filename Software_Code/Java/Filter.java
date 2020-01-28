@@ -5,6 +5,10 @@
  */
 package agilejava;
 
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 /**
  *
  * @author jodielaurenson
@@ -135,4 +139,38 @@ public class Filter {
         }
         return false;
     }
+    
+    
+    
+    
+    
+    
+    
+        /*
+     CallableStatement statement = connection.prepareCall("{ call customer_fnaem(?, ?) }");
+    proc.setString(1, "lisa");
+    proc.setString(2, "test");
+    cs.execute();
+
+    
+
+    public void runSQL() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://db.com:3306/core","username","password");
+            Statement stmt = con.createStatement();
+            String sql = "SELECT *";
+            stmt.execute(sql);
+
+
+            con.close();
+        } catch(Exception e){ System.out.println("Error: "+e);}
+    }*/
+
+    
 }
+
+
+
+
+ 
