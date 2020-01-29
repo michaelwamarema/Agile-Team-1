@@ -143,4 +143,26 @@ public class DatabaseTest {
         }
     }
     
+    @Test
+    public void testRestrictPrice(){
+        try{
+            int providerID[] = new int[38]; //create an array that will store the results
+            Database db = new Database();
+            Connection con = db.setUpConnection();
+            ResultSet result = db.runRestrictPriceP(3000, 3100, con); //call procedure method with city "montgomery"
+            
+            int counter = 0;
+            while(result.next()){
+                
+                    providerID[counter] = result.getInt("providerID"); //add providerID to a position in the array
+                    counter++;
+            }
+            
+            assertEquals("Query run successfully", 10108,providerID[2]);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }
