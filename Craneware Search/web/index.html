@@ -145,24 +145,71 @@
         <div class="row">
           <div class = "col-sm-6">
             <!-- search results -->
-            <h1>Search results</h1>
+            <h1 id="searchResults">Search results</h1>
             
             
             <script>
-                <!--results display test-->
-                function displaySearchResults() {
-                    var searchResultsArray = ["Result1", "Result2", "Result3"];
+                
 
-                    for (var i in searchResultsArray) {
-                    var element = document.createElement("h2");
-                    element.innerHTML = searchResultsArray[i];
-                    $("#searchResultsArray").append(element);
+                function displaySearchResults() {
+                    var searchResultNameArray = ["ResultName1", "ResultName2", "ResultName3"];
+                    /**
+                    var searchResultAddressArray = ["ResultAddress1", "ResultAddress2", "ResultAddress3"];
+                    
+                    var searchResultProcedureArray = ["ResultProcedure1", "ResultProcedure2", "ResultProcedure3"];
+                    
+                    var searchResultPaymentsArray = ["ResultPayments1", "ResultsPayments2", "ResultPayments3"];
+                   */
+
+                    for (var i in searchResultNameArray) {
+                        
+
+                        var newDiv = document.createElement("div")
+                        
+                        newDiv.className = "container p-3 my-3 border";
+                        
+                        var name = document.createElement("h2");
+                        var newName = document.createTextNode(searchResultNameArray[i]);
+                        name.appendChild(newName);
+                        
+                        newDiv.appendChild(name);
+                        
+                        var address = document.createElement("p");
+                        var newAddress = document.createTextNode(searchResultAddressArray[i]);
+                        address.appendChild(newAddress);
+                        
+                        newDiv.appendChild(address);
+                        
+                        var procedure = document.createElement("p");
+                        var newProcedure = document.createTextNode(searchResultProcedureArray[i]);
+                        procedure.appendChild(newProcedure);
+                        
+                        newDiv.appendChild(procedure);
+                        
+                        var name = document.createElement("p");
+                        var newName = document.createTextNode(searchResultNameArray[i]);
+                        name.appendChild(newName);
+                        
+                        newDiv.appendChild(name);
+                        
+                        var currentDiv = document.getElementById("searchResults");
+                        
+                        $("#display").append(newDiv);
+                        
+                        /**document.body.insertBefore(newDiv, currentDiv);*/
+
+                       /**
+                       var name = document.createElement("h2");
+                       name.innerHTML = searchResultNameArray[i];
+                       $("#display").append(name);
+                       */
+                       
                     }
                 };
                 
             </script>
             
-            <a id="searchResultsArray"></a>
+            <a id="display"></a>
 
             <!-- 
             <div class ="container p-3 my-3 border">
@@ -186,15 +233,6 @@
               <p>Average medical care payments: $121763.31</p>
             </div>
             -->
-
-
-            <script>
-
-            function
-
-
-
-            </script>
 
           </div>
 
