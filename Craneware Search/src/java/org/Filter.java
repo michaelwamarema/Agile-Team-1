@@ -68,7 +68,6 @@ public class Filter {
         double x = Math.sin(latitudeDifference/2)*Math.sin(latitudeDifference/2)+Math.cos(Math.toRadians(currentLocation.getLatitude()))*Math.cos(Math.toRadians(targetLocation.getLatitude()))*Math.sin(longitudeDifference/2)*Math.sin(longitudeDifference/2);
         double y = 2*Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
         double distance = RADIUS_OF_EARTH * y;
-        System.out.println("Distance between "+currentLocation.getZip()+" and "+targetLocation.getZip()+" is: "+(int)distance+"km");
         return distance;
         
     }
