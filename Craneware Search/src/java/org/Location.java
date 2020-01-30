@@ -14,6 +14,10 @@ public class Location {
     double latitude;
     double longitude;
     
+    public Location(){
+        
+    }
+    
     public Location(int zip, double latitude, double longitude){
         this.zip = zip;
         this.latitude = latitude;

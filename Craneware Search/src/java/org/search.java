@@ -49,7 +49,7 @@ public class search extends HttpServlet {
             
             Database database = new Database();
             
-            database.runSearchConditionP(procedureInput);
+            database.callFunction(procedureInput);
             
             
             
