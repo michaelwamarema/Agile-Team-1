@@ -38,10 +38,12 @@ public class Database {
             int ids[] = parseID(result);
         }
         else if(option==1){
-            runSearchCityP(input1); //calls a query that searches for a city
+            ResultSet result = runSearchCityP(input1); //calls a query that searches for a city
+            int ids[] = parseID(result);
         }
         else if(option==2){
-            runRestrictPriceP(Integer.parseInt(input1), Integer.parseInt(input2)); //calls a procedure that returns results in price range
+            ResultSet result = runRestrictPriceP(Integer.parseInt(input1), Integer.parseInt(input2)); //calls a procedure that returns results in price range
+            int ids[] = parseID(result);
         }
     }
     
@@ -211,7 +213,17 @@ public class Database {
         return null;
     }
     
-    //public void quicksort()
+    /*public void quickSort(arr[], low, high){
+    if (low < high)
+    {
+        /* pi is partitioning index, arr[pi] is now
+           at right place *//*
+        pi = partition(arr, low, high);
+
+        quickSort(arr, low, pi - 1);  // Before pi
+        quickSort(arr, pi + 1, high); // After pi
+    }
+}*/
     
     //-------------STORED PROCEDURE METHODS-------------\\
     
@@ -223,7 +235,7 @@ public class Database {
      * @param con The connection to the db server
      * @return the results of the query
      */
-    public int runSearchCityP(String city){
+    public ResultSet runSearchCityP(String city){
         try {
             Connection con = setUpConnection();
             CallableStatement stmt;
@@ -233,15 +245,11 @@ public class Database {
             
             ResultSet result = stmt.executeQuery(); //runs query and sets it to the result
             
-            int counter = 0;
-            while(result.next()){
-                selectIds[counter] = result.getInt("providerID");
-                counter++;
-            }
-            return selectIds[0];
+            
+            return result;
             } catch (SQLException ex) {
                 Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
+            return null;
         }  
     }
   
