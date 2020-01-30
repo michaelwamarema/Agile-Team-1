@@ -134,7 +134,7 @@ public class Database {
      * @param con The connection to the db server
      * @return the results of the query
      */
-    public ResultSet runSearchConditionP(String condition, Connection con){
+    public ResultSet runSearchConditionP(String condition){
         try {
             CallableStatement stmt;
             
