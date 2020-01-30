@@ -27,6 +27,49 @@ public class Database {
     String test;
     int selectIds[];
     int SearchCityP;
+    
+    
+    
+    
+    
+    public void callFunction(int option, String input1, String input2){
+        if(option==-1){
+            ResultSet result = getSelect(); //calls a simple get query
+            int ids[] = parseID(result);
+        }
+        else if(option==1){
+            runSearchCityP(input1); //calls a query that searches for a city
+        }
+        else if(option==2){
+            runRestrictPriceP(Integer.parseInt(input1), Integer.parseInt(input2)); //calls a procedure that returns results in price range
+        }
+    }
+    
+    
+    public int[] parseID(ResultSet result){
+        
+        try {
+            //get size of result set
+            int counter = 0;
+            while(result.next()){
+                
+                counter++;
+            }
+            
+            selectIds = new int[counter];
+            
+            while(result.next()){
+                selectIds[counter] = result.getInt("providerID");
+                counter++;
+            }
+            return selectIds;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+            
+    }
+    
     /**
      * sets up the connection to mysql and runs a simple select query
      * @return 
@@ -55,29 +98,19 @@ public class Database {
      * @param con
      * @return 
      */
-    public int getSelect(){
+    public ResultSet getSelect(){
+        Connection con = setUpConnection();
+        ResultSet result = null;
         try{
-            Connection con = setUpConnection();
-            ResultSet result = null;
-            try{
-                Statement stmt = con.createStatement();
-                result = stmt.executeQuery("SELECT * FROM provider WHERE providerZipCode = 36301"); //the query being executed, selects all results in florida
-                
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            selectIds = new int[100];
-            int counter = 0;
-            while(result.next()){
-                selectIds[counter] = result.getInt("providerID");
-                counter++;
-            }
-            return selectIds[0];
+            Statement stmt = con.createStatement();
+            result = stmt.executeQuery("SELECT * FROM provider WHERE providerZipCode = 36301"); //the query being executed, selects all results in florida
+            
+
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return -1;
+        return result;
+        
     }
     
     /**
@@ -177,7 +210,7 @@ public class Database {
         return null;
     }
     
-    
+    //public void quicksort()
     
     //-------------STORED PROCEDURE METHODS-------------\\
     
@@ -189,7 +222,7 @@ public class Database {
      * @param con The connection to the db server
      * @return the results of the query
      */
-    public int setSearchCityP(String city){
+    public int runSearchCityP(String city){
         try {
             Connection con = setUpConnection();
             CallableStatement stmt;
