@@ -1,6 +1,6 @@
 Sprint 1 All information about your first sprint can be found in this folder.
 
-Day [1] - Scrum Meeting summary
+### Day [1] - Scrum Meeting summary
 
 
 The Scrum Master for this meeting was Tony Wright
@@ -12,7 +12,7 @@ Members Present: Michael, Joel, Jodie, Tony
 Members Not Present: Benjamin, Dimitar
 
 
-Summary of Conversation: 
+## Summary of Conversation: 
 
 Each of the members spoke about what they had achieved so far - updating the progress on the product backlog along the way
 
@@ -26,7 +26,7 @@ Jodie, has completed one of her assigned tasks, Create function to restrict sear
 Michael, has begin work on implementing a map into the website, which will hopefully be ready to implement tomorrow
 We also discussed using a database to store and filter the data and added relevant tasks to the product backlog
 
-Day [2] - Scrum Meeting summary
+### Day [2] - Scrum Meeting summary
 
 
 The Scrum Master for this meeting was Tony Wright
@@ -38,7 +38,7 @@ Members Present: Michael, Joel, Jodie, Tony, Dimitar, Ben
 Members Not Present: none
 
 
-Summary of Conversation: 
+## Summary of Conversation: 
 
 Tony + Joel, continued working on functionality for the website, after speaking to other members, we have changed the design to make it easier to identify which search options the user is wanting to use. Currently setting up the connection to the new database through netbeans and setting up a push to the github and displaying dynamic results depending on search options - Joel was having a few problems pushing with the IDE, although shouldn't take too long to fix
 
