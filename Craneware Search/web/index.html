@@ -38,6 +38,8 @@
                       function switchLocationSearchType(selection) {
                         var selectedType = selection;
                         document.getElementById("selectedType").innerHTML = selectedType;
+                        
+                        
                       }
                       </script>
 
@@ -152,13 +154,17 @@
                 
 
                 function displaySearchResults() {
-                    var searchResultNameArray = ["ResultName1", "ResultName2", "ResultName3"];
+                    
+                    
+                    var searchResultNameArray = ["UNIVERSITY OF ALABAMA HOSPITAL", "MAYO CLINIC HOSPITAL", "BAPTIST HEALTH MEDICAL CENTER-LITTLE ROCK"];
 
-                    var searchResultAddressArray = ["ResultAddress1", "ResultAddress2", "ResultAddress3"];
+                    var searchResultAddressArray = ["619 SOUTH 19TH STREET", "5777 EAST MAYO BOULEVARD", "9601 INTERSTATE 630, EXIT 7"];
                     
-                    var searchResultProcedureArray = ["ResultProcedure1", "ResultProcedure2", "ResultProcedure3"];
+                    var searchResultProcedureArray = ["001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC", "001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC", "001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC"];
                     
-                    var searchResultPaymentsArray = ["ResultPayments1", "ResultsPayments2", "ResultPayments3"];
+                    var searchResultPaymentsArray = ["£121763.31", "£164459.68", "£160234.88"];
+                    
+                    
 
 
                     for (var i in searchResultNameArray) {
@@ -218,29 +224,18 @@
               <p>001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC</p>
               <p>Average medical care payments: $121763.31</p>
             </div>
-
-            <div class ="container p-3 my-3 border">
-              <h1>UNIVERSITY OF ALABAMA HOSPITAL - AL</h1>
-              <p>Birmingham - 619 South 19th Street</p>
-              <p>001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC</p>
-              <p>Average medical care payments: $121763.31</p>
-            </div>
-
-            <div class ="container p-3 my-3 border">
-              <h1>UNIVERSITY OF ALABAMA HOSPITAL - AL</h1>
-              <p>Birmingham - 619 South 19th Street</p>
-              <p>001 - HEART TRANSPLANT OR IMPLANT OF HEART ASSIST SYSTEM W MCC</p>
-              <p>Average medical care payments: $121763.31</p>
-            </div>
             -->
 
           </div>
 
           <div class = "col-sm-6">
 
-            <div class="card sticky-top">
+            <div class="card sticky-top" style = "text-align: center; padding-left:40px;">
               <!-- map -->
               <h1>Map</h1>
+              
+                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1rKyzzZcUR_zFjwAkFWqQOIoJ7B4iIbvl" width="640" height="480"></iframe>
+              
             </div>
 
 
