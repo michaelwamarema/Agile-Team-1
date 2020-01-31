@@ -4,7 +4,6 @@
  * and open the template in the editor.
 
 
-TO WRITE : <jsp:setProperty name="databaseBean" property="select" />
  */
 package org;
 
@@ -36,7 +35,13 @@ public class Database {
     
     
     
-    
+    /**
+     * This function is called by the html page and it deals with inputs and calls a corresponding method
+     * 
+     * @param option this is a different number depending on what function needs to be called
+     * @param input1 this is input 1 to be passed into a method
+     * @param input2 this is input 2 to be passed into a method
+     */
     public void callFunction(int option, String input1, String input2){
         if(option==-1){
             ResultSet result = getSelect(); //calls a simple get query
