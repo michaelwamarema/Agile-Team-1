@@ -25,8 +25,13 @@ public class Database {
     String[][] list = {{"871 - SEPTICEMIA OR SEVERE SEPSIS W/O MV >96 HOURS W MCC", "670108", "BAYLOR SCOTT & WHITE MEDICAL CENTER - MARBLE FALLS", "810 W HIGHWAY 71", "MARBLE FALLS", "TX", "78654", "TX - Austin", "89", "34461.67", "13104.79", "7695.337", ""}, {"871 - SEPTICEMIA OR SEVERE SEPSIS W/O MV >96 HOURS W MCC", "670120", "THE HOSPITALS OF PROVIDENCE TRANSMOUNTAIN CAMPUS", "2000 TRANSMOUNTAIN RD", "EL PASO", "TX", "79911", "TX - El Paso", "22", "147342.18", "18504.95", "13261.09", ""}, {"470 - MAJOR JOINT REPLACEMENT OR REATTACHMENT OR LOWER EXTREMITY W/O MCC", "670116", "WISE HEALTH SYSTEM", "3200 NORTH TARRANT PARKWAY", "FORT WORTH", "TX", "76177", "TX - Fort Worth", "30", "94373.47", "13979.7", "11226.63", ""}, {"689 - KIDNEY & URINARY TRACT INFECTIONS W MCC", "670108", "BAYLOR SCOTT & WHITE MEDICAL CENTER - MARBLE FALLS", "810 W HIGHWAY 71", "MARBLE FALLS", "TX", "78654", "TX - Austin", "13", "21297.62", "8200", "3424.308", ""}, {"190 - CHRONIC OBSTRUCTIVE PULMONARY DISEASE W MCC", "670120", "THE HOSPITALS OF PROVIDENCE TRANSMOUNTAIN CAMPUS", "2000 TRANSMOUNTAIN RD", "EL PASO", "TX", "79911", "TX - El Paso", "12", "64578.42", "8526.75", "7649.33", ""}};
     
     String test;
-    int selectIds[];
+    int counter;
     int SearchCityP;
+    
+    
+    
+    
+    
     
     
     
@@ -56,9 +61,10 @@ public class Database {
             while(result.next()){
                 
                 counter++;
+                this.counter = counter;
             }
             
-            selectIds = new int[counter];
+            int[] selectIds = new int[counter];
             
             while(result.next()){
                 selectIds[counter] = result.getInt("providerID");
@@ -71,6 +77,40 @@ public class Database {
         return null;
             
     }
+    
+    
+    
+    
+    public String[] parseCondition(ResultSet result){
+        
+        try {
+            //get size of result set
+            int counter = 0;
+            while(result.next()){
+                
+                counter++;
+            }
+            
+            
+            String[] conditions = new String[counter];
+            counter = 0;
+            while(result.next()){
+                conditions[counter] = result.getString("HRRDescription");
+                System.out.println(result.getString("HRRDescription"));
+                counter++;
+            }
+            
+            
+            System.out.println(conditions[2]);
+            return conditions;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+            
+    }
+    
+    
     
     
     /**
@@ -212,18 +252,67 @@ public class Database {
         }
         return null;
     }
-    
-    /*public void quickSort(arr[], low, high){
-    if (low < high)
-    {
-        /* pi is partitioning index, arr[pi] is now
-           at right place *//*
-        pi = partition(arr, low, high);
+    //##########################################################
+    public void sortByDistance(){
+        Connection con = setUpConnection();
+        ResultSet result = null;
+        double[][] distances = null;
+        try{
+            Statement stmt = con.createStatement();
+            result = stmt.executeQuery("SELECT * FROM lat_and_long"); //the query being executed, selects all results in florida
+            
+            int counter = 0;
+            while(result.next()){
+               distances[counter][0] = result.getInt("ZipCode");
+               
+               //calculateDistance(Location currentLocation,targetLocation)
+                counter++;
+            }
 
-        quickSort(arr, low, pi - 1);  // Before pi
-        quickSort(arr, pi + 1, high); // After pi
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-}*/
+    
+    public double[][] quickSort(double[][] distances, int low, int high){
+        
+        if (low < high)
+        {
+            /* pi is partitioning index, arr[pi] is now
+               at right place */
+            int index = partition(distances, low, high);
+
+            quickSort(distances, low, index - 1);  // Before pi
+            quickSort(distances, index + 1, high); // After pi
+        }
+        return distances;
+    }
+    
+    public int partition(double[][] distances, int low, int high) 
+    { 
+        double pivot = distances[high][1];  
+        int i = (low-1); // index of smaller element 
+        for (int j=low; j<high; j++) 
+        { 
+            // If current element is smaller than the pivot 
+            if (distances[j][1] < pivot) 
+            { 
+                i++; 
+  
+                // swap arr[i] and arr[j] 
+                double[] temp = distances[i]; 
+                distances[i] = distances[j]; 
+                distances[j] = temp; 
+            } 
+        } 
+  
+        // swap arr[i+1] and arr[high] (or pivot) 
+        double[] temp = distances[i+1]; 
+        distances[i+1] = distances[high]; 
+        distances[high] = temp; 
+  
+        return i+1; 
+    }
     
     //-------------STORED PROCEDURE METHODS-------------\\
     
@@ -244,6 +333,7 @@ public class Database {
             stmt.setString(1, city); //sets the parameter to the state variable
             
             ResultSet result = stmt.executeQuery(); //runs query and sets it to the result
+            
             
             
             return result;
@@ -313,13 +403,13 @@ public class Database {
      * @param con The connection to the db server
      * @return the results of the query
      */
-    public ResultSet runSearchZipP(String zip){
+    public ResultSet runSearchZipP(int zip){
         try {
             Connection con = setUpConnection();
             CallableStatement stmt;
             
             stmt = con.prepareCall("{CALL search_zip(?)}"); //prepares the procedure
-            stmt.setString(1, zip); //sets the parameter to the zip variable
+            stmt.setInt(1, zip); //sets the parameter to the zip variable
             
             ResultSet result = stmt.executeQuery();//runs query and sets it to the result
         
@@ -570,6 +660,12 @@ public class Database {
             x[i] = y[i];
             y[i] = temp;
         }
+    }
+    
+    
+    public int getCounter(){
+        return counter;
+        
     }
 }
 
