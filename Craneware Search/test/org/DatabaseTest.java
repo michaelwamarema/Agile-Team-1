@@ -63,7 +63,7 @@ public class DatabaseTest {
             int providerID = -1;
             Database db = new Database();
             Connection con = db.setUpConnection();
-            ResultSet result = db.runSelect(con);
+            ResultSet result = db.getSelect();
             while(result.next()){
                 providerID = result.getInt("providerID");
             }
@@ -77,10 +77,19 @@ public class DatabaseTest {
     @Test
     public void testSearchCity(){
         try{
-            int providerCity[] = new int[3]; //create an array that will store the results
+            
             Database db = new Database();
             Connection con = db.setUpConnection();
-            ResultSet result = db.runSearchCityP("MONTGOMERY", con); //call procedure method with city "montgomery"
+            ResultSet result = db.runSearchCityP("MONTGOMERY"); //call procedure method with city "montgomery"
+            
+            int size =0;
+            if (result != null) 
+            {
+              result.last();    // moves cursor to the last row
+              size = result.getRow(); // get row id 
+            }
+            result.first();
+            int providerCity[] = new int[size]; //create an array that will store the results
             
             int counter = 0;
             while(result.next()){
@@ -88,8 +97,7 @@ public class DatabaseTest {
                     counter++;
             }
             assertEquals("Query run successfully - result 1 correct", providerCity[0],10023);
-            assertEquals("Query run successfully - result 2 correct", providerCity[1],10024);
-            assertEquals("Query run successfully - result 3 correct", providerCity[2],10149);
+            assertEquals("Query run successfully - result 3 correct", providerCity[450],10149);
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -105,7 +113,7 @@ public class DatabaseTest {
             int providerID[] = new int[98]; //create an array that will store the results
             Database db = new Database();
             Connection con = db.setUpConnection();
-            ResultSet result = db.runSearchCityP("DATES DRIVE", con); //call procedure method with city "montgomery"
+            ResultSet result = db.runSearchCityP("DATES DRIVE"); //call procedure method with city "montgomery"
             
             int counter = 0;
             while(result.next()){
@@ -126,7 +134,7 @@ public class DatabaseTest {
             String condition[] = new String[934];
             Database db = new Database();
             Connection con = db.setUpConnection();
-            ResultSet result = db.runSearchConditionP("DYSEQUILIBRIUM", con); //call procedure method with city "montgomery"
+            ResultSet result = db.runSearchConditionP("DYSEQUILIBRIUM"); //call procedure method with city "montgomery"
             
             int counter = 0;
             while(result.next()){
@@ -143,13 +151,19 @@ public class DatabaseTest {
         }
     }
     
+    
+    
+    /**
+     * locations[0] = new Location(48834,43.142,-85.049);
+        locations[1] = new Location(55304,45.255,-93.287);
+        * 697
+     */
     @Test
     public void testRestrictPrice(){
         try{
             int providerID[] = new int[38]; //create an array that will store the results
             Database db = new Database();
-            Connection con = db.setUpConnection();
-            ResultSet result = db.runRestrictPriceP(3000, 3100, con); //call procedure method with city "montgomery"
+            ResultSet result = db.runRestrictPriceP(3000, 3100); //call procedure method with a range between 3000 and 3100
             
             int counter = 0;
             while(result.next()){
@@ -165,4 +179,19 @@ public class DatabaseTest {
         }
     }
     
+    
+    
+    @Test
+    public void testOrderDistance(){
+        
+        Database db = new Database();
+        double[][] result = db.sortByDistance(1001);
+        
+        for(int i = 0; i<result.length;i++){
+            System.out.println("ID: "+result[i][0]+" Distance: "+result[i][1]);
+        }
+        
+        assertEquals("Query run successfully","1104.0",result[0][0]);
+        
+    }
 }
