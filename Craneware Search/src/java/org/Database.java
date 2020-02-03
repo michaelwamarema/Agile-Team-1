@@ -297,8 +297,6 @@ public class Database {
                 userLat = userResult.getDouble("latitude");
                 userLong = userResult.getDouble("longitude");
             }
-            System.out.println("userLat: "+userLat);
-            System.out.println("userLong: "+userLong);
             result = stmt.executeQuery("{CALL get_procedure_locations()}"); //the query being executed
             int size = getSizeOfResult(result);
             double[][] distances = new double[size+1][2];
@@ -311,7 +309,6 @@ public class Database {
                distances[counter][0] = result.getInt("Provider_Zip_Code");
                latitude = result.getDouble("Latitude");
                longitude = result.getDouble("Longitude");
-               System.out.println(counter);
                distances[counter][1] = filter.calculateDistance(userLat, userLong, latitude, longitude);
                counter++;
             }
