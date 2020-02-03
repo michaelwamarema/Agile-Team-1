@@ -180,7 +180,9 @@ public class DatabaseTest {
     }
     
     
-    
+    /**
+     * Tests that the database zipcodes are imported correctly and is sorted correctly
+     */
     @Test
     public void testOrderDistance(){
         
