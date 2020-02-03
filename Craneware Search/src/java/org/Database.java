@@ -258,25 +258,71 @@ public class Database {
         return null;
     }
     //##########################################################
-    public void sortByDistance(){
+    public int getSizeOfResult(ResultSet result){
+        try {
+            int size =0;
+            if (result != null) 
+            {
+
+
+                    result.last();    // moves cursor to the last row
+                    size = result.getRow(); // get row id 
+
+
+            }
+        result.first();
+        return size;
+        } catch (SQLException ex) {
+                Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+    
+    
+    public double[][] sortByDistance(int userZip){
         Connection con = setUpConnection();
+        CallableStatement stmt;
+        Filter filter = new Filter();
         ResultSet result = null;
-        double[][] distances = null;
+        
+        double userLat=0;
+        double userLong=0;
+        
         try{
-            Statement stmt = con.createStatement();
-            result = stmt.executeQuery("SELECT * FROM lat_and_long"); //the query being executed, selects all results in florida
+            stmt = con.prepareCall("{CALL search_latlong_zip(?)}"); //prepares the procedure
+            stmt.setInt(1, userZip); //sets the parameter to the state variable
+            
+            ResultSet userResult = stmt.executeQuery(); //runs query and sets it to the result
+            while(userResult.next()){
+                userLat = userResult.getDouble("latitude");
+                userLong = userResult.getDouble("longitude");
+            }
+            System.out.println("userLat: "+userLat);
+            System.out.println("userLong: "+userLong);
+            result = stmt.executeQuery("{CALL get_procedure_locations()}"); //the query being executed
+            int size = getSizeOfResult(result);
+            double[][] distances = new double[size+1][2];
             
             int counter = 0;
+            double latitude = 0;
+            double longitude = 0;
+            result.first();
             while(result.next()){
-               distances[counter][0] = result.getInt("ZipCode");
-               
-               //calculateDistance(Location currentLocation,targetLocation)
-                counter++;
+               distances[counter][0] = result.getInt("Provider_Zip_Code");
+               latitude = result.getDouble("Latitude");
+               longitude = result.getDouble("Longitude");
+               System.out.println(counter);
+               distances[counter][1] = filter.calculateDistance(userLat, userLong, latitude, longitude);
+               counter++;
             }
+            
+            distances = quickSort(distances, 0, size);
+            return distances;
 
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     }
     
     public double[][] quickSort(double[][] distances, int low, int high){
