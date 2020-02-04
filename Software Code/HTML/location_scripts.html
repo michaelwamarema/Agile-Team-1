@@ -1,0 +1,32 @@
+<script type="text/javascript" JavaScript" SRC="geo.js"></script>   
+<script type="text/javascript" JavaScript" SRC="Utility.js"></script> 
+<script type="text/javascript" JavaScript" SRC="jquery.js"></script> 
+<script type="text/javascript" JavaScript" SRC="modernizr.js"></script>  
+
+function get_location() {
+
+        if (geo_position_js.init()) {
+            geo_position_js.getCurrentPosition(show_map, handle_error);
+        }
+
+    }
+    function show_map(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        alert("lat:" + latitude + " long:" + longitude);
+
+
+    }
+    function handle_error(err) {
+        alert(err.code);
+        if (err.code == 1) {
+            // user said no!
+        }
+    }
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(show_map, handle_error);
+    } else {
+        error('not supported');
+    }
