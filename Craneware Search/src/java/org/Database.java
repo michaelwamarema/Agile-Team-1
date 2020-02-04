@@ -26,8 +26,13 @@ public class Database {
     String test;
     int counter;
     int SearchCityP;
+    String address;
+    String procedure;
+    int providerID;
     
-    
+    String[] addresses;
+    String[] procedures;
+    int[] providerIDs;
     
     
     
@@ -63,13 +68,9 @@ public class Database {
         try {
             //get size of result set
             int counter = 0;
-            while(result.next()){
-                
-                counter++;
-                this.counter = counter;
-            }
+            int size = getSizeOfResult(result);
             
-            int[] selectIds = new int[counter];
+            int[] selectIds = new int[size];
             
             while(result.next()){
                 selectIds[counter] = result.getInt("providerID");
@@ -84,36 +85,93 @@ public class Database {
     }
     
     
-    
-    
-    public String[] parseCondition(ResultSet result){
+    public String[] parseAddress(ResultSet result){
         
         try {
             //get size of result set
             int counter = 0;
+            int size = getSizeOfResult(result);
+            
+            String[] addresses = new String[size];
+            
             while(result.next()){
-                
+                addresses[counter] = result.getString("providerStreetAddress");
                 counter++;
             }
-            
-            
-            String[] conditions = new String[counter];
-            counter = 0;
-            while(result.next()){
-                conditions[counter] = result.getString("HRRDescription");
-                System.out.println(result.getString("HRRDescription"));
-                counter++;
-            }
-            
-            
-            System.out.println(conditions[2]);
-            return conditions;
+            return addresses;
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
             
     }
+   
+    
+     public String[] parseProviderName(ResultSet result){
+        
+        try {
+            //get size of result set
+            int counter = 0;
+            int size = getSizeOfResult(result);
+            
+            String[] provNames = new String[size];
+            
+            while(result.next()){
+                provNames[counter] = result.getString("providerName");
+                counter++;
+            }
+            return provNames;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+            
+    }
+    
+     public String[] parseCondition(ResultSet result){
+        
+        try {
+            //get size of result set
+            int counter = 0;
+            int size = getSizeOfResult(result);
+            
+            String[] procedures = new String[size];
+            
+            while(result.next()){
+                procedures[counter] = result.getString("HRRDescription");
+                counter++;
+            }
+            return procedures;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+            
+    }
+     
+     
+     public Double[] parseAvgMed(ResultSet result){
+        
+        try {
+            //get size of result set
+            int counter = 0;
+            int size = getSizeOfResult(result);
+            
+            Double[] AvgMeds = new Double[size];
+            
+            while(result.next()){
+                AvgMeds[counter] = result.getDouble("Average_Medicare_Payments");
+                counter++;
+            }
+            return AvgMeds;
+        } catch (SQLException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+            
+    }
+    
+    
     
     
     
@@ -278,7 +336,13 @@ public class Database {
         return 0;
     }
     
-    
+    /**
+     * Takes in user zip and gets their longitude and latitude, gets the longitude and latitude of every hospital
+     * and calls the function to calculate the distance and then sorts all distances
+     * 
+     * @param userZip the zip code of the user
+     * @return a 2d array of provider ids and distances, sorted ascending
+     */
     public double[][] sortByDistance(int userZip){
         Connection con = setUpConnection();
         CallableStatement stmt;
@@ -299,21 +363,25 @@ public class Database {
             }
             result = stmt.executeQuery("{CALL get_procedure_locations()}"); //the query being executed
             int size = getSizeOfResult(result);
-            double[][] distances = new double[size+1][2];
-            
+            double[][] distances = new double[size-1][2];
             int counter = 0;
             double latitude = 0;
             double longitude = 0;
             result.first();
             while(result.next()){
-               distances[counter][0] = result.getInt("Provider_Zip_Code");
-               latitude = result.getDouble("Latitude");
-               longitude = result.getDouble("Longitude");
-               distances[counter][1] = filter.calculateDistance(userLat, userLong, latitude, longitude);
+                if(counter<3219){
+                    distances[counter][0] = result.getInt("Provider_Zip_Code");
+                    latitude = result.getDouble("Latitude");
+                    longitude = result.getDouble("Longitude");
+                    distances[counter][1] = filter.calculateDistance(userLat, userLong, latitude, longitude);
+                }
+               
                counter++;
             }
+            //Arrays.copyOf(distances, distances.length-2);
             
-            distances = quickSort(distances, 0, size);
+            distances = quickSort(distances, 0, size-2);
+            
             return distances;
 
         } catch (SQLException ex) {
@@ -322,20 +390,34 @@ public class Database {
         return null;
     }
     
+    /**
+     * sorts using a quicksort - chooses a partition index and recursively calls itself, creating a new index
+     * 
+     * @param distances a 2d array of ids and distances which is being sorted
+     * @param low the smallest index of the partition
+     * @param high the highest index of the partition
+     * @return the sorted 2d array
+     */
     public double[][] quickSort(double[][] distances, int low, int high){
         
         if (low < high)
         {
-            /* pi is partitioning index, arr[pi] is now
-               at right place */
-            int index = partition(distances, low, high);
+            
+            int index = partition(distances, low, high); //set index using partition
 
-            quickSort(distances, low, index - 1);  // Before pi
-            quickSort(distances, index + 1, high); // After pi
+            quickSort(distances, low, index - 1);  // Before index
+            quickSort(distances, index + 1, high); // After index
         }
         return distances;
     }
     
+    /**
+     * 
+     * @param distances
+     * @param low
+     * @param high
+     * @return 
+     */
     public int partition(double[][] distances, int low, int high) 
     { 
         double pivot = distances[high][1];  
@@ -523,198 +605,28 @@ public class Database {
     }
     
     
-    
-    
-    //--------------------------BEN----------------------\\
-    
-    
-    //Method gets procedure name from user
-    public String inputFromUser(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter Query: ");
-        String input = scanner.nextLine();
-        return input;
-    }
-    
-    //Search for procedures or codes
-    public void codeProcedureSearch(){
-        String query = inputFromUser();
-        boolean[] found = new boolean[list.length]; 
-        Arrays.fill(found, Boolean.FALSE); 
-        
-        for(int i = 0; i < list.length; i++){
-            if(list[i][0].contains(query.toUpperCase())){//Searches through the DRG Definition field.
-                found[i] = true;
-            }
-        }
-        for(int i = 0; i < list.length; i++){
-            if(found[i] == true){
-                for(int j = 0; j < list[i].length; j++){
-                    System.out.print(list[i][j]);
-                    System.out.println();
-                }
-            }
-        }
-    }
-    //Search for locations
-    public void locationSearch(){
-        String query = inputFromUser();
-        boolean[] found = new boolean[list.length]; 
-        Arrays.fill(found, Boolean.FALSE);
-        
-        for(int i = 0; i < list.length; i++){
-            if(list[i][7].toUpperCase().contains(query.toUpperCase())){//Searches through the HRR field.
-                found[i] = true;
-            }
-        }
-        for(int i = 0; i < list.length; i++){
-            if(found[i] == true){
-                for(int j = 0; j < list[i].length; j++){
-                    System.out.print(list[i][j]);
-                    System.out.println();
-                }
-            }
-        }
-    }
-    
-    
-    public void locationTest(){
-        //User Coords
-        double userx = 56.462;
-        double usery = -2.971;
-        //Provider Coords
-        double[] provx = {30.111, 31.899, 32.897, 30.111, 31.899};
-        double[] provy = {-97.359,-106.408 , -97.313, -97.359, -106.408};
-        Location userLocation = new Location();
-        Location[] provLocation = new Location[list.length];
-        
-        //Temporary Values created and added to remove the nulls in provLocation.
-        for(int i = 0; i < list.length; i++){
-            Location tempVal = new Location();
-            provLocation[i] = tempVal;
-        }
-        
-        //Sets coords into the classes.
-        userLocation.setLongitude(userx);
-        userLocation.setLatitude(usery);
-        for(int i = 0; i < list.length; i++){
-            provLocation[i].setLongitude(provx[i]);
-            provLocation[i].setLatitude(provy[i]);
-        }
-        
-        double userLat = userLocation.getLatitude();
-        double userLong = userLocation.getLongitude();
-        double[] providerLat = new double[list.length];
-        double[] providerLong = new double[list.length];
-        
-        for(int i = 0; i < list.length; i++){
-            providerLat[i] = provLocation[i].getLatitude();
-            providerLong[i] = provLocation[i].getLongitude();
-        }
-        
-        distanceSort(userLat, userLong, providerLat, providerLong);
-    }
-    
-    public void distanceSort(double currLat, double currLong, double[] providerLat, double[] providerLong){
-        double[] distance = distanceCalc(currLat, currLong, providerLat, providerLong);
-        
-        //Adds distances to the list. *Will not work multiple times!*
-        for (int i = 0; i < list.length; i++){
-            list[i][12] = String.valueOf(distance[i]);
-        }
-        
-        for(int i = 0; i < list.length; i++){
-            int low = i;
-            for(int j = 0; j < list[i].length; j++){
-                for(int k = j; k < list.length; k++){
-                    if(Double.parseDouble(list[j][12]) > Double.parseDouble(list[low][12])){// Changes to double are made to correctly compare the two values.
-                        low = j;
-                        swap(list[low], list[i]);
-                    }
-                }
-            }
-        }
-
-        printMultiArray(list);
-    }
-    //Method finds distance between two points with longitude and latitude(As-Crows-Flys)
-    //Reference:
-    //https://www.movable-type.co.uk/scripts/latlong.html
-    //Altered to use arrays
-    public double[] distanceCalc(double currLat, double currLong, double[] providerLat, double[] providerLong){
-        double[] distance = new double[list.length];
-        double radius = 6371e3;
-        double theta1 = Math.toRadians(currLat);
-        double[] theta2 = new double[list.length];
-        for (int i = 0; i < list.length; i++){
-             theta2[i] = Math.toRadians(providerLat[i]);
-        }
-        double[] deltaTheta = new double[list.length];
-        double[] deltaLambda = new double[list.length];
-        double[] a = new double[list.length];
-        double[] c = new double[list.length];
-        
-        for(int i = 0; i < list.length; i++){
-            deltaTheta[i] = Math.toRadians(providerLat[i]-currLat);
-            deltaLambda[i] = Math.toRadians(providerLong[i] - currLong);
-        }
-        
-        for(int i = 0; i < list.length; i++){
-            a[i] = (Math.sin(deltaTheta[i] / 2) * Math.sin(deltaTheta[i] / 2)) + Math.cos(theta1) * Math.cos(theta2[i]) * (Math.sin(deltaLambda[i] / 2) * Math.sin(deltaLambda[i] / 2)); 
-        }
-        
-        for(int i = 0; i < list.length; i++){
-            c[i] = 2 * Math.atan2(Math.sqrt(a[i]), Math.sqrt(1-a[i]));
-        }
-        
-        for(int i = 0; i < list.length; i++){
-            distance[i] = radius * c[i];
-        }
-        return distance;
-    }
-    //sorts the list based on price in an ascending order
-    public void priceSort(){
-        for(int i = 0; i < list.length; i++){
-            int low = i;
-            for(int j = 0; j < list[i].length; j++){
-                for(int k = j; k < list.length; k++){
-                    if (Double.parseDouble(list[j][11]) > Double.parseDouble(list[low][11])){
-                        low = j;
-                        swap(list[low], list[i]);
-                    }
-                }
-            }
-        }
-        
-        printMultiArray(list);
-    }
-    //Prints a 2-dimensional array
-    public void printMultiArray(String[][] array){
-        for(int i = 0; i < array.length; i++){
-            for(int j = 0; j < array[i].length; j++){
-                System.out.print(array[i][j]);
-                System.out.println();
-            }
-        }
-    }
-    
-    public void quickPrint(){
-        printMultiArray(list);
-    }
-    //Swaps two lines in the list for the purpose of sorting
-    public void swap(String[] x, String[] y){
-        for(int i = 0; i < list[0].length; i++){
-            String temp = x[i];
-            x[i] = y[i];
-            y[i] = temp;
-        }
-    }
-    
-    
-    public int getCounter(){
-        return counter;
-        
-    }
+   public void setAddresses(String search){
+       ResultSet result = runSearchAddressP(search);
+       providerIDs =  parseID(result);
+   }
+   
+   
+   public String getAddresses(){
+       //return addresses;
+       //String[] addresses =  {"abc", "def"};
+       return "test";
+       //return addresses;
+   }
+   
+   public void setProcedures(String search){
+       ResultSet result = runSearchConditionP(search);
+       providerIDs =  parseID(result);
+   }
+   
+   public String getProcedures(){
+       return "test";
+       //return procedures;
+   }
 }
 
 
