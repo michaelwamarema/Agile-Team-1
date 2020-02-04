@@ -59,13 +59,13 @@ public class Filter {
      * @param targetLocation the location of the target, stored in an object
      * @return the distance between the two points in kilometres
      */
-    public double calculateDistance(Location currentLocation, Location targetLocation){
+    public double calculateDistance(double userLat,double userLong,double latitude,double longitude){
         final double RADIUS_OF_EARTH = 6371;
-        double latitudeDifference = Math.toRadians(currentLocation.getLatitude()-targetLocation.getLatitude()); //calculated difference between latitude in radians
-        double longitudeDifference = Math.toRadians(currentLocation.getLongitude()-targetLocation.getLongitude());//calculated difference between longitude in radians
+        double latitudeDifference = Math.toRadians(userLat-latitude); //calculated difference between latitude in radians
+        double longitudeDifference = Math.toRadians(userLong-longitude);//calculated difference between longitude in radians
         
         //calculates the first part of Haversines formula
-        double x = Math.sin(latitudeDifference/2)*Math.sin(latitudeDifference/2)+Math.cos(Math.toRadians(currentLocation.getLatitude()))*Math.cos(Math.toRadians(targetLocation.getLatitude()))*Math.sin(longitudeDifference/2)*Math.sin(longitudeDifference/2);
+        double x = Math.sin(latitudeDifference/2)*Math.sin(latitudeDifference/2)+Math.cos(Math.toRadians(userLat))*Math.cos(Math.toRadians(latitude))*Math.sin(longitudeDifference/2)*Math.sin(longitudeDifference/2);
         double y = 2*Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
         double distance = RADIUS_OF_EARTH * y;
         return distance;
@@ -84,7 +84,7 @@ public class Filter {
         Location locationsInRange[] = new Location[locations.length]; 
         int counter = 0;
         for(int l = 0;l<locations.length;l++){
-            double currDistance = calculateDistance(currentLocation, locations[l]);
+            double currDistance = calculateDistance(currentLocation.getLatitude(),currentLocation.getLongitude(), locations[l].getLatitude(),locations[l].getLongitude());
             if(currDistance<range){
                 locationsInRange[counter]=locations[l];
                 counter++;
@@ -98,13 +98,7 @@ public class Filter {
         return returnLocations;
     }
     
-    /**public void searchLongAndLat(int zip, Location[] locations, Record[] records){
-        for(int i = 0; i < locations.length; i++){
-            if(locations[i].getZip()==zip){
-                calculateDistance(locations[i], )
-            }
-        }
-    }*/
+    
     
     public Location getCurrentLocation(int zip, Location[] locations){
         int min = 0;

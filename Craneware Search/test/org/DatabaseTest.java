@@ -187,13 +187,12 @@ public class DatabaseTest {
     public void testOrderDistance(){
         
         Database db = new Database();
-        double[][] result = db.sortByDistance(1001);
+        double[][] result = new double[3211][0];
+        result = db.sortByDistance(1001);
         
-        for(int i = 0; i<result.length;i++){
-            System.out.println("ID: "+result[i][0]+" Distance: "+result[i][1]);
-        }
         
-        assertEquals("Query run successfully","1104.0",result[0][0]);
+        String closest = Double.toString(result[0][0]);
+        assertEquals("Query run successfully","1104.0",closest);
         
     }
 }

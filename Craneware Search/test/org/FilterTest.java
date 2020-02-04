@@ -117,7 +117,7 @@ public class FilterTest {
         Location locations[] = new Location[2];
         locations[0] = new Location(48834,43.142,-85.049);
         locations[1] = new Location(55304,45.255,-93.287);
-        double distance = filter.calculateDistance(locations[0], locations[1]);
+        double distance = filter.calculateDistance(locations[0].getLatitude(),locations[0].getLongitude(), locations[1].getLatitude(), locations[1].getLongitude());
         distance = Math.round(distance);
         int distanceInt = (int)distance;
         assertEquals("Distance is correct",distanceInt, 697);
