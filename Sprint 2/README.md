@@ -58,3 +58,63 @@ What did you do? - Used a servlet to connnect HTML and Java, successful, however
 What will you do? - Redesign the website to fit the response from the client in the client meeting
 
 Are there any imparements? - Servlet method will not be viable to intergrate all other functionalities with the website, a quicker and simpler method needs to be found - task passed to someone with more skills in the area
+
+#Sprint 2 All information about the second sprint can be found in this folder.
+
+Day [3] - Scrum Meeting summary The Scrum Master for this meeting was Jodie Laurenson
+
+Members Present: Jodie, Benjamin, Dimitar, Tony, Joel
+
+Members Not Present: Michael
+
+Summary of Conversation:
+
+Joel:
+- What did you do?
+  Finished 'get user location' functionality
+  
+- What will you do?
+  Implememnt onto the website
+  
+- Are there any imparements?
+  None
+  
+Dimitar:
+- What did you do?
+  Working with Jodie to get JPS working with the website to send and recieve data from the database
+  
+- What will you do?
+  Continue working on that
+  
+- Are there any imparements?
+  None
+
+Benjamin:
+- What did you do?
+  Rewriting Java code to work with JSP
+  
+- What will you do?
+  Continue working on that
+  
+- Are there any imparements?
+  None
+  
+Jodie:
+- What did you do?
+  Working with Dimitar to get JPS working with the website to send and recieve data from the database
+  
+- What will you do?
+  Continue working on that
+  
+- Are there any imparements?
+  None
+  
+Tony:
+- What did you do?
+  Redesigned the website to fit the feedback from the client
+  
+- What will you do?
+  Work with Jodie and Dimitar on JPS/HTML
+  
+- Are there any imparements?
+  None
