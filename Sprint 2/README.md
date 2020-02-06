@@ -1,6 +1,6 @@
-#Sprint 2 All information about the second sprint can be found in this folder.
+## Sprint 2 All information about the second sprint can be found in this folder.
 
-Day [1] - Scrum Meeting summary The Scrum Master for this meeting was Jodie Laurenson
+### Day [1] - Scrum Meeting summary The Scrum Master for this meeting was Jodie Laurenson
 
 Members Present: Michael, Jodie
 
@@ -14,7 +14,7 @@ Jodie: Continued implementing the search/sort by distance feature and conecting 
 
 The sprint retrospective needs to be started, so the we have a better idea of what is left to be done and how to approach sprint two
 
-Day [2] - Scrum Meeting summary The Scrum Master for this meeting was Tony Wright
+### Day [2] - Scrum Meeting summary The Scrum Master for this meeting was Tony Wright
 
 Members Present: Michael, Jodie, Benjamin, Tony, Joel
 
@@ -61,7 +61,7 @@ Are there any imparements? - Servlet method will not be viable to intergrate all
 
 #Sprint 2 All information about the second sprint can be found in this folder.
 
-Day [3] - Scrum Meeting summary The Scrum Master for this meeting was Jodie Laurenson
+### Day [3] - Scrum Meeting summary The Scrum Master for this meeting was Jodie Laurenson
 
 Members Present: Jodie, Benjamin, Dimitar, Tony, Joel
 
