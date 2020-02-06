@@ -18,14 +18,15 @@ public class main{
     }
 
     public void addToDataSet(){
+        //ArrayList created to make an adjustable array
         ArrayList<ArrayList<String>> aList = new ArrayList<>(list.length + 1);
+        //Creates the new record to be added to the list
         ArrayList<String> newLine = new ArrayList<>(list[0].length);
-        
         for(int j = 0; j < list[0].length; j++){
             String enteredValue = inputFromUser(j);
             newLine.add(enteredValue);
         }
-        
+        //Fills the new list with information from the user and initial list
         for(int i = 0; i < list.length; i++){
             ArrayList<String> line = new ArrayList<>();
             for (int j = 0; j < list[i].length; j++){
@@ -36,22 +37,24 @@ public class main{
                 aList.add(newLine);
             }
         }
-        
+        //Prints the new list with added record
         for(ArrayList<String> b : aList){
             System.out.println(b);
         }
     }
     
     public void deleteToDataSet(){
+        //ArrayList created to make an adjustable array
         ArrayList<ArrayList<String>> aList = new ArrayList<>(list.length);
+        //Allows user to make a compound key to locate correct record
         String[] delQuery = new String[2];
         int[] IDIndex = new int[list.length];
         int locIndex = -1;
+        boolean foundLoc = false;
         
         boolean[] foundID = new boolean[list.length]; 
         Arrays.fill(foundID, Boolean.FALSE); 
-        
-        boolean foundLoc = false;
+        //Populates the list
         for(int i = 0; i < list.length; i++){
             ArrayList<String> line = new ArrayList<>();
             for (int j = 0; j < list[i].length; j++){
@@ -59,21 +62,21 @@ public class main{
             }
             aList.add(line);
         }
-        
+        //Finds the compoud key the user wishes to delete
         for(int i = 0; i < 2; i++){
             delQuery[i] = inputFromUser(i);
         }
-
+        //Searches through the DRG definition for the first part of the compound key
         for(int i = 0; i < list.length; i++){
-            if(list[i][0].contains(delQuery[0].toUpperCase())){//Searches through the DRG Definition field.
+            if(list[i][0].contains(delQuery[0].toUpperCase())){//Searches through the DRG Definition field
                 foundID[i] = true;
                 IDIndex[i] = i;
             }
         }
-        
+        //Searches through the Provider ID for the second part of the compound key
         for(int i = 0; i < list.length; i++){
-            if(foundID[i] == true){
-                if(list[i][1].contains(delQuery[1].toUpperCase())){
+            if(foundID[i] == true){//Checks to see if the first part of the compound key is there
+                if(list[i][1].contains(delQuery[1].toUpperCase())){//Searches through the Provider ID field
                     foundLoc = true;
                     locIndex = i;
                 }
@@ -81,17 +84,17 @@ public class main{
         }
         
         for(int i = 0; i < list.length; i++){
-            ArrayList<String> nullLine = new ArrayList(list[i].length);
+            ArrayList<String> nullLine = new ArrayList(list[i].length);//Creates a null line to replace the record
             for(int j = 0; j < list[i].length; j++){
                 nullLine.add("");
             }
             if(foundID[i] == true && foundLoc == true){
                 if(IDIndex[i] == locIndex){
-                    aList.set(IDIndex[i], nullLine);
+                    aList.set(IDIndex[i], nullLine);//Sets the null line in the location determined by the compound key
                 }
             }
         }
-        
+        //Prints the new list with deleted record
         for(ArrayList<String> b : aList){
             System.out.println(b);
         }
@@ -104,18 +107,19 @@ public class main{
         String[] editQuery = new String[2];
         int[] IDIndex = new int[list.length];
         int locIndex = -1;
+        boolean foundLoc = false;
         String[] editToMake = new String[list[0].length];
-        boolean[] editMade = new boolean[list[0].length];
-        Arrays.fill(editMade, Boolean.FALSE); 
         
         for(int i = 0; i < list.length; i++){
             editToMake[i] = "0";
         }
         
+        boolean[] editMade = new boolean[list[0].length];
+        Arrays.fill(editMade, Boolean.FALSE); 
+        
         boolean[] foundID = new boolean[list.length]; 
         Arrays.fill(foundID, Boolean.FALSE); 
-        
-        boolean foundLoc = false;
+  
         for(int i = 0; i < list.length; i++){
             ArrayList<String> line = new ArrayList<>();
             for (int j = 0; j < list[i].length; j++){
@@ -123,18 +127,18 @@ public class main{
             }
             aList.add(line);
         }
-        
+        //Creates compund key the user is searching for
         for(int i = 0; i < 2; i++){
             editQuery[i] = inputFromUser(i);
         }
-        
+        //Compares the first part of the compound key with the DRG definition to find the matching IDs
         for(int i = 0; i < list.length; i++){
             if(list[i][0].contains(editQuery[0].toUpperCase())){//Searches through the DRG Definition field.
                 foundID[i] = true;
                 IDIndex[i] = i;
             }
         }
-        
+        //If it finds an ID, it then searches through the ProviderIDs to locate the 
         for(int i = 0; i < list.length; i++){
             if(foundID[i] == true){
                 if(list[i][1].contains(editQuery[1].toUpperCase())){
@@ -143,7 +147,7 @@ public class main{
                 }
             }
         }
-        
+        //If a location is found, asks the user to enter in what fields they wish to edit
         if(locIndex != -1){
             for(int i = 0; i < list[0].length; i++){
                 System.out.println("Enter in what fields you wish to edit.");
@@ -152,50 +156,39 @@ public class main{
             
                 editToMake[i] = inputFromUser(i);
             }
-        }else{
+        }else{//If a location is not found, the user is informed 
             System.out.println("Error. No record located with data entered.");
+            //Since no record has been located, the program makes it so no edits can be made
             for(int i = 0; i < list.length; i++){
                 editToMake[i] = "0";
             }
         }
-        
+       
         for(int i = 0; i < list.length; i++){
-            ArrayList<String> editedLine = new ArrayList(list[i].length);
-            
+            ArrayList<String> editedLine = new ArrayList(list[i].length);//Edited line to be entered
             if(foundID[i] == true && foundLoc == true){
                 for(int j = 0; j < list[i].length; j++){
                     if(editMade[j] != true){
                         if(editToMake[j].equals("0")){
-                            editedLine.add(list[i][j]);
+                            editedLine.add(list[i][j]);//If the line is to be unedited, the line is set to what the values in the list
                         }else if(editToMake[j].equals("1")){
-                            editedLine.add(inputFromUser(j));
+                            editedLine.add(inputFromUser(j));//If the line is to be edited, the line takes in information from the user
                             editMade[j] = true;
                         }else{
                             System.out.println("Error. Value entered is incorrect.");
                         }
                     }
                 }
-                if(IDIndex[i] == locIndex){
+                if(IDIndex[i] == locIndex){//If the indexes match up, the edited line is entered into the list 
                     aList.set(IDIndex[i], editedLine);
                 }
+            }else{//If no values have been found, the program throws an error
+                System.out.println("Error. No values entered have been found. Values are incorrect.");
             }
         }
-        
+        //Prints the new edited list
         for(ArrayList<String> b : aList){
             System.out.println(b);
         }
-    }
-    
-    public void printMultiArray(String[][] array){
-        for(int i = 0; i < array.length; i++){
-            for(int j = 0; j < array[i].length; j++){
-                System.out.print(array[i][j]);
-                System.out.println();
-            }
-        }
-    }
-    
-    public void quickPrint(){
-        printMultiArray(list);
     }
 }
