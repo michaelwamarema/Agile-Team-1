@@ -98,11 +98,15 @@ public class main{
     }
     
     public void editToDataSet(){
+        //ArrayList created to make an adjustable array
         ArrayList<ArrayList<String>> aList = new ArrayList<>(list.length);
+        //Allows user to make a compound key to locate correct record
         String[] editQuery = new String[2];
         int[] IDIndex = new int[list.length];
         int locIndex = -1;
         String[] editToMake = new String[list[0].length];
+        boolean[] editMade = new boolean[list[0].length];
+        Arrays.fill(editMade, Boolean.FALSE); 
         
         for(int i = 0; i < list.length; i++){
             editToMake[i] = "0";
@@ -124,14 +128,6 @@ public class main{
             editQuery[i] = inputFromUser(i);
         }
         
-        for(int i = 0; i < list[0].length; i++){
-            System.out.println("Enter in what fields you wish to edit.");
-            System.out.println("Enter a 1 to make a edit to the field.");
-            System.out.println("Enter a 0 to not make an edit");
-            
-            editToMake[i] = inputFromUser(i);
-        }
-
         for(int i = 0; i < list.length; i++){
             if(list[i][0].contains(editQuery[0].toUpperCase())){//Searches through the DRG Definition field.
                 foundID[i] = true;
@@ -148,22 +144,38 @@ public class main{
             }
         }
         
+        if(locIndex != -1){
+            for(int i = 0; i < list[0].length; i++){
+                System.out.println("Enter in what fields you wish to edit.");
+                System.out.println("Enter a 1 to make a edit to the field.");
+                System.out.println("Enter a 0 to not make an edit");
+            
+                editToMake[i] = inputFromUser(i);
+            }
+        }else{
+            System.out.println("Error. No record located with data entered.");
+            for(int i = 0; i < list.length; i++){
+                editToMake[i] = "0";
+            }
+        }
+        
         for(int i = 0; i < list.length; i++){
             ArrayList<String> editedLine = new ArrayList(list[i].length);
-            boolean editMade = false;
             
             if(foundID[i] == true && foundLoc == true){
                 for(int j = 0; j < list[i].length; j++){
-                    if(editToMake[j].equals("0")){
-                        editedLine.add(list[i][j]);
-                    }else if(editToMake[j].equals("1")){
-                        editedLine.add(inputFromUser(j));
-                        editMade = true;
-                    }else{
-                        System.out.println("Error. Value entered is incorrect.");
+                    if(editMade[j] != true){
+                        if(editToMake[j].equals("0")){
+                            editedLine.add(list[i][j]);
+                        }else if(editToMake[j].equals("1")){
+                            editedLine.add(inputFromUser(j));
+                            editMade[j] = true;
+                        }else{
+                            System.out.println("Error. Value entered is incorrect.");
+                        }
                     }
                 }
-                if(IDIndex[i] == locIndex && editMade == true){
+                if(IDIndex[i] == locIndex){
                     aList.set(IDIndex[i], editedLine);
                 }
             }
